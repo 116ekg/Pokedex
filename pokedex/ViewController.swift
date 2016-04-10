@@ -28,9 +28,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         parsePokemonCSV()
         initAudio()
-        
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.dismissKeyboard))
-        view.addGestureRecognizer(tap)
     }
     
     func initAudio() {
@@ -94,7 +91,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
             poke = pokemon[indexPath.row]
         }
         
-        print(poke.name)
         performSegueWithIdentifier("PokemonDetailVC", sender: poke)
         
     }
@@ -115,12 +111,13 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        dismissKeyboard()
+        view.endEditing(true)
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         if searchBar.text == nil || searchBar.text == "" {
             inSearchMode = false
+            view.endEditing(true)
             collection.reloadData()
         } else {
             inSearchMode = true
@@ -139,10 +136,6 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
                 }
             }
         }
-    }
-    
-    func dismissKeyboard() {
-        view.endEditing(true)
     }
     
     @IBAction func musicButtonPressed(sender: UIButton!) {
